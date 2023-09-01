@@ -8,16 +8,18 @@ import categoryRoute from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cors from "cors";
 import path from "path";
-import { fileURLTopath } from 'url' ;
+import { fileURLToPath } from "url";
+import exp from "constants";
+
 // config env
 dotenv.config();
 
 // Connect Database
 connectDB();
 
-const __filename = fileURLTopath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+// ES Module Fix
+const __filename = fileURLToPath(import.meta.url);
+const _dirname = path.dirname(_filename);
 // rest object
 const app = express();
 
@@ -25,6 +27,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "./front-end/build")));
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
@@ -32,8 +35,8 @@ app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/product", productRoutes);
 
 // rest api
-app.get("/", (req, res) => {
-  res.send("<h1>Babar Shazad E-Commerce App</h1>");
+app.use("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./front-end/build/index.html"));
 });
 
 // PORT

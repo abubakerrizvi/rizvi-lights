@@ -7,12 +7,15 @@ import authRoutes from "./routes/authRout.js";
 import categoryRoute from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cors from "cors";
-
+import { fileURLTopath } from 'url' ;
 // config env
 dotenv.config();
 
 // Connect Database
 connectDB();
+
+const __filename = fileURLTopath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // rest object
 const app = express();
